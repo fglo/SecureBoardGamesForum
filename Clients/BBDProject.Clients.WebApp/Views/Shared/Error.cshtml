@@ -1,0 +1,14 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div uk-grid class="uk-grid-match uk-margin uk-margin-left uk-margin-right">
+    <div class="uk-card uk-card-default uk-card-body uk-align-center uk-width-1-3 uk-child-width-auto">
+        <h3 class="uk-card-title uk-text-bolder uk-text-uppercase text-danger">Error</h3>
+        <p>
+            @ViewBag.Message
+        </p>
+        <a class="uk-button uk-button-default uk-align-center" asp-controller="User" asp-action="Index">Return to the main page</a>
+    </div>
+</div>

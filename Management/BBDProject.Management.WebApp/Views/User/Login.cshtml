@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Mvc.ModelBinding
+@model BBDProject.Shared.Models.User.UserLoginForm
+@{
+    Layout = "_Layout";
+}
+
+<div uk-grid class="uk-grid-match uk-margin uk-margin-left uk-margin-right">
+    <div class="uk-width-1-3 uk-align-center">
+        <div class="uk-card uk-card-default uk-card-body">
+            @using (Html.BeginForm("Authorize", "User", FormMethod.Post))
+            {
+                <div class="uk-margin">
+                    <div class="uk-inline input-container">
+                        <span class="uk-form-icon" uk-icon="icon: user"></span>
+                        <input id="username" class="uk-input" asp-for="UserName" type="text" placeholder="@ViewData.ModelState["UserName"]?.Errors?.FirstOrDefault()?.ErrorMessage">
+                        @*<span asp-validation-for="UserName" class="text-danger"></span>*@
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <div class="uk-inline input-container">
+                        <span class="uk-form-icon uk-form-icon" uk-icon="icon: lock"></span>
+                        <input id="password" class="uk-input" asp-for="Password" type="password" placeholder="@ViewData.ModelState["Password"]?.Errors?.FirstOrDefault()?.ErrorMessage">
+                        @*<span asp-validation-for="Password" class="text-danger"></span>*@
+                    </div>
+                </div>
+                <button class="uk-button uk-button-primary uk-button-small">Login</button>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    let username = $('input#username');
+    if (username.attr("placeholder") && username.attr("placeholder") !== "") {
+        username.addClass("uk-form-danger");
+    } else {
+        username.removeClass("uk-form-danger");
+    }
+
+    let password = $('input#password');
+    if (password.attr("placeholder") && password.attr("placeholder") !== "") {
+        password.addClass("uk-form-danger");
+    } else {
+        password.removeClass("uk-form-danger");
+    }
+</script>

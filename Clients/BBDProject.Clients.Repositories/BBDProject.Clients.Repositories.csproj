@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\BBDProject.Shared.Models\BBDProject.Shared.Models.csproj" />
+    <ProjectReference Include="..\BBDProject.Clients.Db\BBDProject.Clients.Db.csproj" />
+    <ProjectReference Include="..\BBDProject.Clients.Models\BBDProject.Clients.Models.csproj" />
+  </ItemGroup>
+
+</Project>

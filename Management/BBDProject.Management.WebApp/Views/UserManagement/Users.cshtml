@@ -1,0 +1,35 @@
+﻿@model List<BBDProject.Shared.Models.User.UserModel>
+@{
+    Layout = "_Layout";
+}
+
+<div class="uk-card uk-card-default uk-card-body uk-overflow-auto">
+    <table class="uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-responsive">
+        <thead>
+            <tr>
+                <th class="uk-text-nowrap">Id</th>
+                <th class="uk-text-nowrap">Username</th>
+                <th class="uk-text-nowrap">First Name</th>
+                <th class="uk-text-nowrap">Last Name</th>
+                <th class="uk-text-nowrap">E-mail</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr hidden />
+            @foreach (var item in Model)
+            {
+                <tr class="uk-text-left">
+                    <td class="uk-text-nowrap">@Html.DisplayFor(i => item.Id)</td>
+                    <td class="uk-text-nowrap">@Html.DisplayFor(i => item.UserName)</td>
+                    <td class="uk-text-nowrap">@Html.DisplayFor(i => item.FirstName)</td>
+                    <td class="uk-text-nowrap">@Html.DisplayFor(i => item.LastName)</td>
+                    <td class="uk-text-nowrap">@Html.DisplayFor(i => item.Email)</td>
+                    <td class="uk-text-nowrap">
+                        <a class="uk-margin-right" style="color: royalBlue" asp-controller="Home" asp-action="Index" asp-route-testId="@item.Id" uk-tooltip="title: Block user; pos: bottom-left" title="Block user"><span style="color: royalBlue" uk-icon="icon:ban"/></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

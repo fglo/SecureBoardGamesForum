@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="3.1.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Serilog" Version="2.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Clients\BBDProject.Clients.Models\BBDProject.Clients.Models.csproj" />
+    <ProjectReference Include="..\..\Clients\BBDProject.Clients.Repositories\BBDProject.Clients.Repositories.csproj" />
+    <ProjectReference Include="..\..\Shared\BBDProject.Shared.Models\BBDProject.Shared.Models.csproj" />
+    <ProjectReference Include="..\..\Shared\BBDProject.Shared.Utils\BBDProject.Shared.Utils.csproj" />
+    <ProjectReference Include="..\BBDProject.Management.Db\BBDProject.Management.Db.csproj" />
+    <ProjectReference Include="..\BBDProject.Management.Models\BBDProject.Management.Models.csproj" />
+    <ProjectReference Include="..\BBDProject.Management.Repositories\BBDProject.Management.Repositories.csproj" />
+  </ItemGroup>
+
+</Project>

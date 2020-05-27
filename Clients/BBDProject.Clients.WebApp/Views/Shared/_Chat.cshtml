@@ -1,0 +1,41 @@
+﻿<link rel="stylesheet" href="~/css/chat.css" />
+
+<div class="fb-livechat">
+    <div class="ctrlq fb-overlay"></div>
+    <div class="fb-widget">
+        <div class="ctrlq fb-close"></div>
+        <div class="fb-page" data-href="https://www.facebook.com/skunkworks.ca" data-tabs="messages" data-width="360" data-height="400" data-small-header="true" data-hide-cover="true" data-show-facepile="false">
+            <blockquote cite="https://www.facebook.com/skunkworks.ca" class="fb-xfbml-parse-ignore"> </blockquote>
+        </div>
+        <div class="fb-credit">
+            <div class="uk-card uk-card-default uk-border-rounded uk-margin-small-top">
+                <div id="chatbody" class="chatbody uk-card-body uk-padding-small uk-overflow-auto">
+                    <div></div>
+                    <div id="firstmessage" class="guest uk-flex-bottom uk-margin-small-bottom">
+                        <div class="uk-width-auto">
+                            Napisz pierwszą wiadomość!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="uk-card-footer uk-padding-remove">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <a href="#" class="uk-icon-link uk-margin-small-left" uk-icon="icon: happy"></a>
+                        </div>
+                        <div class="uk-width-expand">
+                            <div class="uk-padding-small uk-padding-remove-horizontal">
+                                <input type="text" id="chatinput" class="uk-textarea uk-padding-remove uk-border-remove" rows="1" placeholder="Napisz wiadomość..."></input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="https://m.me/skunkworks.ca" title="Send us a message on Facebook" class="ctrlq fb-button"></a>
+</div>
+
+<script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>$(document).ready(function () { var t = { delay: 125, overlay: $(".fb-overlay"), widget: $(".fb-widget"), button: $(".fb-button") }; setTimeout(function () { $("div.fb-livechat").fadeIn() }, 8 * t.delay), $(".ctrlq").on("click", function (e) { e.preventDefault(), t.overlay.is(":visible") ? (t.overlay.fadeOut(t.delay), t.widget.stop().animate({ bottom: 0, opacity: 0 }, 2 * t.delay, function () { $(this).hide("slow"), t.button.show() })) : t.button.fadeOut("medium", function () { t.widget.stop().show().animate({ bottom: "30px", opacity: 1 }, 2 * t.delay), t.overlay.fadeIn(t.delay) }) }) });</script>

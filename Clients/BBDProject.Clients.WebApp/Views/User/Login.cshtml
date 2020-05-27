@@ -1,0 +1,30 @@
+﻿@model BBDProject.Shared.Models.User.UserLoginForm
+@{
+    Layout = "_Layout";
+}
+
+<div uk-grid class="uk-grid-match uk-margin uk-margin-left uk-margin-right">
+    <div class="uk-width-1-3 uk-align-center">
+        <div class="uk-card uk-card-default uk-card-body">
+            @using (Html.BeginForm("Authorize", "User", FormMethod.Post))
+            {
+                <div class="uk-margin">
+                    <div class="uk-inline input-container">
+                        <span class="uk-form-icon" uk-icon="icon: user"></span>
+                        <input class="uk-input" asp-for="UserName" type="text">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <div class="uk-inline input-container">
+                        <span class="uk-form-icon uk-form-icon" uk-icon="icon: lock"></span>
+                        <input class="uk-input" asp-for="Password" type="password">
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                </div>
+                <button class="uk-button uk-button-primary uk-button-small">Login</button>
+            }
+        </div>
+    </div>
+</div>
