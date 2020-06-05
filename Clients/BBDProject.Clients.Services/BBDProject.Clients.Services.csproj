@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="HtmlSanitizer" Version="5.0.319" />
     <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
@@ -16,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\BBDProject.Shared.Models\BBDProject.Shared.Models.csproj" />
+    <ProjectReference Include="..\..\Shared\BBDProject.Shared.Utils\BBDProject.Shared.Utils.csproj" />
     <ProjectReference Include="..\BBDProject.Clients.Db\BBDProject.Clients.Db.csproj" />
     <ProjectReference Include="..\BBDProject.Clients.Models\BBDProject.Clients.Models.csproj" />
     <ProjectReference Include="..\BBDProject.Clients.Repositories\BBDProject.Clients.Repositories.csproj" />

@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using BBDProject.Clients.Db.Dao;
+using BBDProject.Clients.Models.Product;
 using BBDProject.Clients.Models.Resources;
+using BBDProject.Clients.Repositories.Product;
 using BBDProject.Shared.Models.User;
 using Microsoft.AspNetCore.Identity;
+using Serilog;
+using Serilog.Core;
 
 namespace BBDProject.Clients.WebApp
 {
@@ -14,7 +19,8 @@ namespace BBDProject.Clients.WebApp
 
         public async Task Initialize(
             UserManager<DaoUser> userManager,
-            RoleManager<DaoRole> roleManager)
+            RoleManager<DaoRole> roleManager,
+            IProductRepository productRepository)
         {
             Users = new Dictionary<string, List<UserRegisterForm>>();
             Users.Add(RoleNames.User, new List<UserRegisterForm>()
@@ -24,6 +30,8 @@ namespace BBDProject.Clients.WebApp
             });
 
             await FirstConfigUserRoles(userManager, roleManager);
+
+            await AddProducts(productRepository, @"C:\Users\fglowacki\Pictures\planszowki");
         }
 
         private async Task CreateRole(string roleName, RoleManager<DaoRole> roleManager)
@@ -54,12 +62,41 @@ namespace BBDProject.Clients.WebApp
                                 UserName = userRegisterForm.UserName,
                                 EmailConfirmed = true,
                                 FirstName = userRegisterForm.FirstName,
-                                LastName = userRegisterForm.LastName
+                                LastName = userRegisterForm.LastName,
                             };
 
                             var result = await userManager.CreateAsync(user, userRegisterForm.Password);
                             await userManager.AddToRoleAsync(user, item.Key);
                         }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
+
+        private async Task AddProducts(IProductRepository productRepository, string path)
+        {
+            foreach (var filePath in Directory.GetFiles(path))
+            {
+                try
+                {
+                    var name = Path.GetFileNameWithoutExtension(filePath).Replace("_", " ");
+                    var product = await productRepository.Get(name);
+                    if (product == null)
+                    {
+                        await productRepository.Create(new ProductForm()
+                        {
+                            Name = name,
+                            Brand = $"Gra planszowa",
+                            Description =
+                                "Gra planszowa w której chodzi o to, żeby wygrać. nie wolno jedynie przegrywać! Dobra zabawa i dużo jedzenia gwarantowane.",
+                            Model = "II",
+                            Image = await File.ReadAllBytesAsync(filePath)
+                        });
                     }
                 }
                 catch (Exception ex)

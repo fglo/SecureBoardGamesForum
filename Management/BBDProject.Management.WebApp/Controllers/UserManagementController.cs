@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using BBDProject.Management.Db.Dao;
-using BBDProject.Management.Services.User;
 using BBDProject.Management.Services.UserManagement;
 using BBDProject.Shared.Models.User;
 using Microsoft.AspNetCore.Authorization;

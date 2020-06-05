@@ -30,14 +30,21 @@ namespace BBDProject.Clients.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetLastMessages()
         {
+            var messages = await _chatService.GetLast();
+            return Ok(messages);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetMessages()
+        {
             var messages = await _chatService.GetPaged(10, 1);
             return Ok(messages);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPreviousPage(int pageNumber)
+        public async Task<IActionResult> GetPreviousPage()
         {
-            var messages = _chatService.GetPaged(10, pageNumber);
+            var messages = await _chatService.GetPreviousPage(10);
             return Ok(messages);
         }
     }

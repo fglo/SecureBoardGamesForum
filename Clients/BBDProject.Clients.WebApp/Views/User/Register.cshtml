@@ -3,14 +3,14 @@
     Layout = "_Layout";
 }
 
-<div uk-grid class="uk-grid-match uk-margin uk-margin-left uk-margin-right">
+<div uk-grid class="uk-grid-match">
     <div class="uk-width-1-3 uk-align-center">
         <div class="uk-card uk-card-default uk-card-body">
             @using (Html.BeginForm("Register", "User", FormMethod.Post))
             {
                 <div class="uk-margin">
                     <div class="uk-inline input-container">
-                        <span>First name</span>
+                        <span>Imię</span>
                         <input class="uk-input" asp-for="FirstName" type="text">
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
@@ -18,7 +18,7 @@
 
                 <div class="uk-margin">
                     <div class="uk-inline input-container">
-                        <span>Last name</span>
+                        <span>Nazwisko</span>
                         <input class="uk-input" asp-for="LastName" type="text">
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
@@ -55,7 +55,7 @@
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
                 </div>
-                <button class="uk-button uk-button-primary uk-button-small">Login</button>
+                <button class="uk-button uk-button-primary uk-button-small">ZAREJESTRUJ</button>
             }
         </div>
     </div>

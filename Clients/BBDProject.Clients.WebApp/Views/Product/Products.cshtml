@@ -1,0 +1,45 @@
+﻿@model List<BBDProject.Clients.Models.Product.ProductViewModel>
+@{
+    Layout = "_Layout";
+}
+
+<div class="uk-card uk-card-default uk-card-body uk-overflow-auto">
+    <table id="products" class="uk-table uk-table-striped uk-table-middle uk-table-divider uk-table-responsive display">
+        <thead>
+            <tr>
+                <th class="uk-text-nowrap"></th>
+                <th class="uk-text-nowrap">Nazwa</th>
+                <th class="uk-text-nowrap">Marka</th>
+                <th class="uk-table-expand">Opis</th>
+                <th class="uk-text-nowrap">Model</th>
+                <th class="uk-text-nowrap">Data dodania</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var base64 = Convert.ToBase64String(item.Image);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                <tr class="uk-text-left">
+                    <td class="uk-preserve-width"><img src="@imgSrc" width="64" height="64" /></td>
+                    <td class="uk-table-shrink">@Html.DisplayFor(i => item.Name)</td>
+                    <td class="uk-text-nowrap">@Html.DisplayFor(i => item.Brand)</td>
+                    <td class="">@Html.DisplayFor(i => item.Description)</td>
+                    <td class="uk-table-shrink">@Html.DisplayFor(i => item.Model)</td>
+                    <td class="uk-text-nowrap">@Html.DisplayFor(i => item.DateAdded)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#products').DataTable({
+            "scrollY": "500px",
+            "scrollCollapse": true,
+            "paging": false
+        });
+    });
+</script>

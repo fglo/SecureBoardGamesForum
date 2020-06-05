@@ -1,8 +1,7 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using BBDProject.Shared.Models.User;
 
-namespace BBDProject.Shared.Models.Chat
+namespace BBDProject.Clients.Models.Chat
 {
     public class MessageModel
     {
@@ -11,5 +10,6 @@ namespace BBDProject.Shared.Models.Chat
         public UserModel Author { get; set; }
         public string Content { get; set; }
         public DateTime DateAdded { get; set; }
+        public bool IsMyMessage { get; set; }
     }
 }

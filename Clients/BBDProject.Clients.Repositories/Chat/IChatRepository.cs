@@ -7,9 +7,7 @@ namespace BBDProject.Clients.Repositories.Chat
     public interface IChatRepository
     {
         Task<int> SendMessage(string message, int authorId);
-        Task<List<DaoMessage>> GetAllMessages();
-        Task<List<DaoMessage>> GetLast();
-        Task<List<DaoMessage>> GetNotRead();
+        Task<List<DaoMessage>> GetNewMessages(int userId, int lastMessageId);
         Task<List<DaoMessage>> GetPaged(int messagesPerPage, int pageNumber);
     }
 }

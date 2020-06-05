@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using BBDProject.Management.Db.Dao;
 using BBDProject.Management.Services.EmployeeManagement;
-using BBDProject.Management.Services.User;
 using BBDProject.Management.Services.UserManagement;
 using BBDProject.Shared.Models.User;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BBDProject.Management.WebApp.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class EmployeeManagementController : BaseController
     {
         private readonly IEmployeeManagementService _employeeManagementService;

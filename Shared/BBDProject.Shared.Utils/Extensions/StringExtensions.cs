@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace BBDProject.Shared.Utils.Extensions
 {
@@ -24,7 +25,7 @@ namespace BBDProject.Shared.Utils.Extensions
 
         public static string SoftNormalize(this string text)
         {
-            return text.RemoveDiactritics().ToUpper();
+            return Regex.Replace(text.RemoveDiactritics().ToUpper(), @"\s", "");
         }
     }
 }

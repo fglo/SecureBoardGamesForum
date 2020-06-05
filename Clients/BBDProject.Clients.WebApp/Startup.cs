@@ -10,6 +10,7 @@ using BBDProject.Clients.Db.Dao;
 using BBDProject.Clients.Db.Migrations;
 using BBDProject.Clients.Models;
 using BBDProject.Clients.Repositories;
+using BBDProject.Clients.Repositories.Product;
 using BBDProject.Clients.Services;
 using FluentMigrator.Runner;
 using Microsoft.AspNetCore.Builder;
@@ -19,11 +20,13 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Serilog.Core;
 
 namespace BBDProject.Clients.WebApp
 {
@@ -55,7 +58,7 @@ namespace BBDProject.Clients.WebApp
         {
             services.AddSession(options =>
             {
-                options.Cookie.Name = ".NoSqlProject.Session";
+                options.Cookie.Name = ".BBDProject.Session";
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
@@ -68,31 +71,39 @@ namespace BBDProject.Clients.WebApp
                 .AddEntityFrameworkStores<ClientDbContext>()
                 .AddDefaultTokenProviders();
 
+
+            services.AddSignalR();
+            //services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
+
             services.AddControllersWithViews()
                 .AddNewtonsoftJson();
 
             services.Configure<IdentityOptions>(options =>
             {
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 1;
-                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 10;
+                options.Password.RequiredUniqueChars = 1;
 
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
                 options.Lockout.AllowedForNewUsers = true;
 
                 options.User.AllowedUserNameCharacters =
                     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = false;
+                options.User.RequireUniqueEmail = true;
+
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
             });
 
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                options.Cookie.Name = ".BBDProject";
 
                 options.LoginPath = "/User";
                 options.AccessDeniedPath = "/User";
@@ -136,6 +147,7 @@ namespace BBDProject.Clients.WebApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
 
@@ -178,6 +190,13 @@ namespace BBDProject.Clients.WebApp
                 .WithParameter("config", Configuration)
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<ChatHub>()
+                .ExternallyOwned()
+                .SingleInstance();
+            //builder.RegisterType<CustomUserIdProvider>()
+            //    .As<IUserIdProvider>()
+            //    .SingleInstance();
+
             builder.RegisterType<UserContext>()
                 .InstancePerLifetimeScope();
 
@@ -202,8 +221,9 @@ namespace BBDProject.Clients.WebApp
             {
                 RoleManager<DaoRole> roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<DaoRole>>();
                 UserManager<DaoUser> userManager = scope.ServiceProvider.GetRequiredService<UserManager<DaoUser>>();
+                IProductRepository productRepository = scope.ServiceProvider.GetRequiredService<IProductRepository>();
                 var dbInitializer = new DbInitializer();
-                dbInitializer.Initialize(userManager, roleManager).Wait();
+                dbInitializer.Initialize(userManager, roleManager, productRepository).Wait();
             }
         }
 

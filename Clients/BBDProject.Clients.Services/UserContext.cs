@@ -1,5 +1,6 @@
 ﻿using BBDProject.Clients.Db.Dao;
 using BBDProject.Clients.Models;
+using BBDProject.Shared.Utils.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
@@ -47,5 +48,29 @@ namespace BBDProject.Clients.Services
         /// Currently signed-in user name
         /// </summary>
         public string UserName { get; set; }
+
+        public int ChatLastPage
+        {
+            get
+            {
+                return Session.GetLastPageNumber();
+            }
+            set
+            {
+                Session.SetLastPageNumber(value);
+            }
+        }
+
+        public int LastMessageId
+        {
+            get
+            {
+                return Session.GetLastMessageId();
+            }
+            set
+            {
+                Session.SetLastMessageId(value);
+            }
+        }
     }
 }

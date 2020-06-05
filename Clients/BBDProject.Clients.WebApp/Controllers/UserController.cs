@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using BBDProject.Clients.Db.Dao;
+using BBDProject.Clients.Models.Exceptions;
 using BBDProject.Clients.Services.User;
 using BBDProject.Shared.Models.User;
 using Microsoft.AspNetCore.Authorization;
@@ -72,19 +73,19 @@ namespace BBDProject.Clients.WebApp.Controllers
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> Authorize(UserLoginForm userModel)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return View("Login", userModel);
-            }
+                if (!ModelState.IsValid)
+                {
+                    return View("Login", userModel);
+                }
 
-            var result = await _userService.LoginUser(userModel);
-            if (result == null)
-            {
+                await _userService.LoginUser(userModel);
                 return RedirectToAction("Index");
             }
-            else
+            catch (ServiceException ex)
             {
-                ModelState.AddModelError(result?.Key, result?.Value);
+                ViewBag.ErrorMessage = ex.Message;
                 return View("Login", userModel);
             }
         }

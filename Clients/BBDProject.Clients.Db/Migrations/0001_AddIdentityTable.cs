@@ -5,37 +5,36 @@ namespace BBDProject.Clients.Db.Migrations
     [Migration(0001)]
     public class AddIdentityTable : Migration
     {
-        private string _schemaName = "users";
         public override void Down()
         {
-            Delete.Table("role").InSchema(_schemaName);
-            Delete.Table("user_token").InSchema(_schemaName);
-            Delete.Table("role_claim").InSchema(_schemaName);
-            Delete.Table("user_claim").InSchema(_schemaName);
-            Delete.Table("user_login").InSchema(_schemaName);
-            Delete.Table("roles").InSchema(_schemaName);
-            Delete.Table("user").InSchema(_schemaName);
-            Delete.Schema(_schemaName);
+            Delete.Table(DatabaseNames.RoleTableName).InSchema(DatabaseNames.UsersSchemaName);
+            Delete.Table(DatabaseNames.UserTokenTableName).InSchema(DatabaseNames.UsersSchemaName);
+            Delete.Table(DatabaseNames.RoleClaimTableName).InSchema(DatabaseNames.UsersSchemaName);
+            Delete.Table(DatabaseNames.UserClaimTableName).InSchema(DatabaseNames.UsersSchemaName);
+            Delete.Table(DatabaseNames.UserLoginTableName).InSchema(DatabaseNames.UsersSchemaName);
+            Delete.Table(DatabaseNames.RoleTableName).InSchema(DatabaseNames.UsersSchemaName);
+            Delete.Table(DatabaseNames.UserTableName).InSchema(DatabaseNames.UsersSchemaName);
+            Delete.Schema(DatabaseNames.UsersSchemaName);
         }
 
         public override void Up()
         {
-            Create.Schema(_schemaName);
+            Create.Schema(DatabaseNames.UsersSchemaName);
 
-            Create.Table("role").InSchema(_schemaName)
+            Create.Table(DatabaseNames.RoleTableName).InSchema(DatabaseNames.UsersSchemaName)
                 .WithColumn("Id").AsInt32().PrimaryKey("PK_role").Identity()
                 .WithColumn("ConcurrencyStamp").AsString().Nullable()
                 .WithColumn("Name").AsString(256).NotNullable()
                 .WithColumn("NormalizedName").AsString(256).Nullable()
                 .Indexed("RoleNameIndex");
 
-            Create.Table("user_token").InSchema(_schemaName)
+            Create.Table(DatabaseNames.UserTokenTableName).InSchema(DatabaseNames.UsersSchemaName)
                 .WithColumn("UserId").AsInt32().PrimaryKey("PK_user_token").NotNullable()
                 .WithColumn("LoginProvider").AsString(450).NotNullable()
                 .WithColumn("Name").AsString(450).NotNullable()
                 .WithColumn("Value").AsString().Nullable();
 
-            Create.Table("user").InSchema(_schemaName)
+            Create.Table(DatabaseNames.UserTableName).InSchema(DatabaseNames.UsersSchemaName)
                 .WithColumn("Id").AsInt32().Identity().PrimaryKey("PK_user")
                 .WithColumn("AccessFailedCount").AsInt32().NotNullable()
                 .WithColumn("ConcurrencyStamp").AsString().Nullable()
@@ -54,36 +53,36 @@ namespace BBDProject.Clients.Db.Migrations
                 .WithColumn("FirstName").AsString(256).Nullable()
                 .WithColumn("LastName").AsString(256).Nullable();
 
-            Create.Table("role_claim").InSchema(_schemaName)
+            Create.Table(DatabaseNames.RoleClaimTableName).InSchema(DatabaseNames.UsersSchemaName)
                 .WithColumn("Id").AsInt32().PrimaryKey("PK_role_claim").Identity()
                 .WithColumn("ClaimType").AsString().Nullable()
                 .WithColumn("ClaimValue").AsString().Nullable()
                 .WithColumn("RoleId").AsInt32().NotNullable().Indexed("IX_role_claim_RoleId")
-                    .ForeignKey("FK_role_claim_role_RoleId", _schemaName, "role", "Id");
+                    .ForeignKey("FK_role_claim_role_RoleId", DatabaseNames.UsersSchemaName, DatabaseNames.RoleTableName, "Id");
 
-            Create.Table("user_claim").InSchema(_schemaName)
+            Create.Table(DatabaseNames.UserClaimTableName).InSchema(DatabaseNames.UsersSchemaName)
                 .WithColumn("Id").AsInt32().PrimaryKey("PK_user_claim").Identity()
                 .WithColumn("ClaimType").AsString().Nullable()
                 .WithColumn("ClaimValue").AsString().Nullable()
                 .WithColumn("UserId").AsInt32().NotNullable().Indexed("IX_user_claim_UserId")
-                    .ForeignKey("FK_user_claim_user_UserId", _schemaName, "user", "Id")
+                    .ForeignKey("FK_user_claim_user_UserId", DatabaseNames.UsersSchemaName, DatabaseNames.UserTableName, "Id")
                 .OnDelete(System.Data.Rule.Cascade);
 
-            Create.Table("user_login").InSchema(_schemaName)
+            Create.Table(DatabaseNames.UserLoginTableName).InSchema(DatabaseNames.UsersSchemaName)
                 .WithColumn("LoginProvider").AsInt32().NotNullable().PrimaryKey("PK_user_login")
                 .WithColumn("ProviderKey").AsString(450).NotNullable().PrimaryKey("PK_user_login")
                 .WithColumn("ProviderDisplayName").AsString().Nullable()
                 .WithColumn("UserId").AsInt32()
                 .NotNullable()
                 .Indexed("IX_user_login_UserId")
-                    .ForeignKey("FK_user_login_user_UserId", _schemaName, "user", "Id")
+                    .ForeignKey("FK_user_login_user_UserId", DatabaseNames.UsersSchemaName, DatabaseNames.UserTableName, "Id")
                 .OnDelete(System.Data.Rule.Cascade);
 
-            Create.Table("user_role").InSchema(_schemaName)
+            Create.Table(DatabaseNames.UserRoleTableName).InSchema(DatabaseNames.UsersSchemaName)
                 .WithColumn("UserId").AsInt32().PrimaryKey("PK_roles").Indexed("IX_roles_UserId")
-                    .ForeignKey("FK_roles_user_UserId", _schemaName, "user", "Id")
+                    .ForeignKey("FK_roles_user_UserId", DatabaseNames.UsersSchemaName, DatabaseNames.UserTableName, "Id")
                 .WithColumn("RoleId").AsInt32().PrimaryKey("PK_roles").Indexed("IX_roles_RoleId")
-                    .ForeignKey("FK_roles_role_RoleId", _schemaName, "role", "Id")
+                    .ForeignKey("FK_roles_role_RoleId", DatabaseNames.UsersSchemaName, DatabaseNames.RoleTableName, "Id")
                     .OnDelete(System.Data.Rule.Cascade);
         }
     }

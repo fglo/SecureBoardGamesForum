@@ -25,7 +25,7 @@ namespace BBDProject.Clients.Services.User
             _signInManager = signInManager;
         }
 
-        public async Task<KeyValuePair<string, string>?> LoginUser(UserLoginForm userLoginForm)
+        public async Task LoginUser(UserLoginForm userLoginForm)
         {
             var viewModel = new UserLoginForm()
             {
@@ -36,7 +36,7 @@ namespace BBDProject.Clients.Services.User
                             await _userManager.FindByEmailAsync(userLoginForm.UserName);
             if (user == null)
             {
-                return new KeyValuePair<string, string>("UserLoginForm.Username", "Wrong username");
+                Error("Nieprawidłowa nazwa użytkownika lub hasło!");
             }
 
             var result = await _signInManager.PasswordSignInAsync(user.UserName,
@@ -44,20 +44,18 @@ namespace BBDProject.Clients.Services.User
             if (result.Succeeded)
             {
                 UserContext.UserId = user.Id;
-
-                return null;
             }
             else if (result.IsLockedOut)
             {
-                return new KeyValuePair<string, string>("UserLoginForm.Username", "User is locked");
+                Error("Uzytkownik został zablokowany!");
             }
             else if (result.IsNotAllowed)
             {
-                return new KeyValuePair<string, string>("UserLoginForm.Username", "User is not allowed");
+                Error("Uzytkownik jest nieaktywny!");
             }
             else
             {
-                return new KeyValuePair<string, string>("UserLoginForm.Password", "Wrong password");
+                Error("Nieprawidłowa nazwa użytkownika lub hasło!");
             }
         }
 

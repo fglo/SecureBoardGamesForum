@@ -1,25 +1,27 @@
-﻿namespace BBDProject.Shared.Utils.Extensions
+﻿using Microsoft.AspNetCore.Http;
+
+namespace BBDProject.Shared.Utils.Extensions
 {
     public static class SessionExtensions
     {
-        //public static void SetCompanyId(this ISession session, int companyId)
-        //{
-        //    session.SetInt32(CompanyId, companyId);
-        //}
+        public static void SetLastPageNumber(this ISession session, int companyId)
+        {
+            session.SetInt32("LastPageNumber", companyId);
+        }
 
-        //public static int GetCompanyId(this ISession session)
-        //{
-        //    return session.GetInt32(CompanyId) ?? -1;
-        //}
+        public static int GetLastPageNumber(this ISession session)
+        {
+            return session.GetInt32("LastPageNumber") ?? -1;
+        }
 
-        //public static void ClearCompanyId(this ISession session)
-        //{
-        //    session.Remove(CompanyId);
-        //}
+        public static void SetLastMessageId(this ISession session, int messageId)
+        {
+            session.SetInt32("LastMessageId", messageId);
+        }
 
-        //public static bool IsCompanyIdSet(this ISession session)
-        //{
-        //    return session.GetInt32(CompanyId) != null;
-        //}
+        public static int GetLastMessageId(this ISession session)
+        {
+            return session.GetInt32("LastMessageId") ?? -1;
+        }
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace BBDProject.Management.Db
 {
-    public class ManagementDbContext : IdentityDbContext<DaoEmployee, DaoRole, int, DaoUserClaim, DaoUserRole, DaoUserLogin, DaoRoleClaim, DaoUserToken>
+    public class ManagementDbContext : IdentityDbContext<DaoEmployee, DaoRole, int, DaoEmployeeClaim, DaoEmployeeRole, DaoEmployeeLogin, DaoRoleClaim, DaoEmployeeToken>
     {
         private static IConfigurationRoot _config;
 
@@ -35,13 +35,13 @@ namespace BBDProject.Management.Db
                 .HasBaseType((Type)null)
                 .ToTable("user", "users")
                 .HasKey(l => new { l.Id });
-            modelBuilder.Entity<DaoUserClaim>().ToTable("user_claim", "users")
+            modelBuilder.Entity<DaoEmployeeClaim>().ToTable("user_claim", "users")
                 .HasBaseType((Type)null)
                 .HasKey(l => new { l.Id });
-            modelBuilder.Entity<DaoUserLogin>().ToTable("user_login", "users")
+            modelBuilder.Entity<DaoEmployeeLogin>().ToTable("user_login", "users")
                 .HasBaseType((Type)null)
                 .HasKey(l => new { l.LoginProvider, l.ProviderKey });
-            modelBuilder.Entity<DaoUserToken>().ToTable("user_token", "users")
+            modelBuilder.Entity<DaoEmployeeToken>().ToTable("user_token", "users")
                 .HasBaseType((Type)null)
                 .HasKey(l => new { l.UserId });
             modelBuilder.Entity<DaoRole>().ToTable("role", "users")
@@ -50,7 +50,7 @@ namespace BBDProject.Management.Db
             modelBuilder.Entity<DaoRoleClaim>().ToTable("role_claim", "users")
                 .HasBaseType((Type)null)
                 .HasKey(l => new { l.Id });
-            modelBuilder.Entity<DaoUserRole>().ToTable("user_role", "users")
+            modelBuilder.Entity<DaoEmployeeRole>().ToTable("user_role", "users")
                 .HasBaseType((Type)null)
                 .HasKey(r => new { r.UserId, r.RoleId });
         }

@@ -1,38 +1,80 @@
-﻿var sanitizeHTML = function (str) {
+﻿var gettingLastMessages = false;
+
+$('a.fb-button').click(function () {
+    let chatbody = $('div#chatbody');
+    setTimeout(() => {
+        chatbody[0].scrollTop = chatbody[0].scrollHeight;
+    }, 500);
+});
+
+var sanitizeHTML = function (str) {
     var temp = document.createElement('div');
     temp.textContent = str;
     return temp.innerHTML;
 };
 
 function GetLastMessages() {
+    gettingLastMessages = true;
     $.get("/Chat/GetLastMessages")
+        .done(function (data, textStatus, jqXHR) {
+            floodTheChat(data);
+            gettingLastMessages = false;
+        })
+        .fail(function (data, textStatus, jqXHR) {
+            console.log(data);
+            gettingLastMessages = false;
+        });
+}
+
+function GetPreviousPage() {
+    $.get("/Chat/GetPreviousPage")
+        .done(function (data, textStatus, jqXHR) {
+            addPreviousMessages(data);
+        })
+        .fail(function (data, textStatus, jqXHR) {
+            console.log(data);
+        });
+}
+
+function GetMessages() {
+    $.get("/Chat/GetMessages")
         .done(function (data, textStatus, jqXHR) {
             floodTheChat(data);
         })
         .fail(function (data, textStatus, jqXHR) {
             console.log(data);
         });
-}
-GetLastMessages();
+} GetMessages();
 
 function floodTheChat(messages) {
     console.log(messages);
+    if (messages.length > 0 && $('div#firstmessage')) {
+        $('div#firstmessage').remove();
+    }
+    let anchor = $('div#chatbody').find('#anchor');
     messages.forEach(message => {
-        let chatbody = $('div#chatbody');
-        let lastMessage = chatbody.children().last();
-        lastMessage.after(`<div style="margin-top: 8px; margin-bottom: 8px;" class="guest uk-grid-small uk-flex-middle uk-flex-left" uk-grid>
-                                <div class="uk-width-auto">
-                                    <img class="uk-border-circle" width="32" height="32" src="https://randomuser.me/api/portraits/men/97.jpg">
-                                </div>
-                                <div class="uk-width-auto">
-                                    <div style="padding: 8px;" class="uk-card uk-card-body uk-card-small uk-card-default uk-border-rounded">
-                                        <p class="uk-margin-remove">${message.content}</p>
-                                    </div>
-                                </div>
-                            </div>`);
-        if (lastMessage.attr('id') === "firstmessage") {
-            $('div#firstmessage').remove();
+        if (message.isMyMessage) {
+            anchor.before(getMyMessage(sanitizeHTML(message.content)));
+        } else {
+            anchor.before(getOutsideMessage(sanitizeHTML(message.content), message.author.firstName, message.author.lastName));
         }
+    });
+}
+
+function addPreviousMessages(messages) {
+    if (messages.length > 0 && $('div#firstmessage')) {
+        $('div#firstmessage').remove();
+    }
+
+    let top = $('div#chatbody div:nth-child(2)');
+    messages.forEach(message => {
+        let chattop = $('div#chatbody').find('#chattop');
+        if (message.isMyMessage) {
+            chattop.after(getMyMessage(sanitizeHTML(message.content)));
+        } else {
+            chattop.after(getOutsideMessage(sanitizeHTML(message.content), message.author.firstName, message.author.lastName));
+        }
+        UIkit.scroll('div#chatbody').scrollTo(top);
     });
 }
 
@@ -41,26 +83,54 @@ $('input#chatinput').keypress(function (event) {
     if (message && message !== "" && event.keyCode == 13) {
         sendMessage(message);
         let chatbody = $('div#chatbody');
-        let lastMessage = chatbody.children().last();
-        lastMessage.after(`<div style="margin-top: 8px; margin-bottom: 8px;" class="me uk-grid-small uk-flex-middle uk-flex-right uk-text-right" uk-grid>
-                                <div class="chat-message uk-width-auto">
-                                    <div style="padding: 8px;" class="uk-card uk-card-body uk-card-small uk-card-primary uk-border-rounded uk-text-break">
-                                        <p class="uk-margin-remove uk-text-small">${message}</p>
-                                    </div>
-                                </div>
-                                <div class="uk-width-auto">
-                                    <img class="uk-border-circle" width="32" height="32" src="https://randomuser.me/api/portraits/men/32.jpg">
-                                </div>
-                        </div>`);
-        if (lastMessage.attr('id') === "firstmessage") {
-            $('div#firstmessage').remove();
-        }
+        let anchor = chatbody.find('#anchor');
+
+        anchor.before(getMyMessage(message));
 
         $(this).val("");
         chatbody[0].scrollTop = chatbody[0].scrollHeight;
+
+        if ($('div#firstmessage')) {
+            $('div#firstmessage').remove();
+        }
     }
 });
 
+$('div#chatbody').scroll(function (ev) {
+    if (!gettingLastMessages && this.scrollTop === 0) {
+        GetPreviousPage();
+    }
+});
+
+function getOutsideMessage(text, name, surname) {
+    return `<div style="margin-top: 8px; margin-bottom: 8px;" class="guest uk-grid-small uk-flex-middle uk-flex-left" uk-grid>
+                                <div class="uk-width-auto">
+                                    <div class="initials_border">
+                                      <div class="name-container">
+                                        <div class="name" uk-tooltip="title: ${name} ${surname}; pos: bottom-left">
+                                          ${name.charAt(0).toUpperCase()}${surname.charAt(0).toUpperCase()}
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="chat-message uk-width-auto">
+                                    <div style="padding: 8px;" class="uk-card uk-card-body uk-card-small uk-card-default uk-border-rounded uk-text-break">
+                                        <p class="uk-margin-remove uk-text-normal uk-text-small">${text}</p>
+                                    </div>
+                                </div>
+                            </div>`;
+}
+
+
+function getMyMessage(text) {
+    return `<div style="margin-top: 8px; margin-bottom: 8px;" class="me uk-grid-small uk-flex-middle uk-flex-right uk-text-right" uk-grid>
+                                <div class="chat-message uk-width-auto">
+                                    <div style="padding: 8px;" class="uk-card uk-card-body uk-card-small uk-card-primary uk-border-rounded uk-text-break">
+                                        <p class="uk-margin-remove uk-text-normal uk-text-small" style="color: white;">${text}</p>
+                                    </div>
+                                </div>
+                        </div>`;
+}
 
 async function sendMessage(message) {
     // Default options are marked with *

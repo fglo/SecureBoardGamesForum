@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Identity;
 namespace BBDProject.Management.Db.Dao
 {
     /// <summary>
-    /// AspNetUsers Table Data Access Object 
+    /// user Table Data Access Object 
     /// </summary>
-    [Table("user_claim", Schema = "users")]
-    public class DaoUserClaim : IdentityUserClaim<int>
+    [Table(DatabaseNames.UserClaimTableName, Schema = DatabaseNames.UsersSchemaName)]
+    public class DaoEmployeeClaim : IdentityUserClaim<int>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

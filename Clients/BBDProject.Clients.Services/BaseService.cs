@@ -2,6 +2,7 @@
 using AutoMapper;
 using BBDProject.Clients.Models;
 using BBDProject.Clients.Models.Exceptions;
+using Ganss.XSS;
 using Microsoft.AspNetCore.Http;
 
 namespace BBDProject.Clients.Services
@@ -11,6 +12,14 @@ namespace BBDProject.Clients.Services
         public UserContext UserContext { get; set; }
         public AppSettings AppSettings { get; set; }
         public IMapper Mapper { get; set; }
+        public ChatHub ChatHub { get; set; }
+
+        protected HtmlSanitizer HtmlSanitizer{ get; set; }
+
+        public BaseService()
+        {
+            HtmlSanitizer = new HtmlSanitizer();
+        }
 
         protected void Error(string message, string details = null, int statusCode = StatusCodes.Status400BadRequest)
         {

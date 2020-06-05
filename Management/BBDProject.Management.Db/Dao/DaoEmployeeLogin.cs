@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Identity;
 namespace BBDProject.Management.Db.Dao
 {
     /// <summary>
-    /// AspNetUserTokens Table Data Access Object 
+    /// user Table Data Access Object 
     /// </summary>
-    [Table("AspNetUserTokens", Schema = "users")]
-    public class DaoUserToken : IdentityUserToken<int>
+    [Table(DatabaseNames.UserLoginTableName, Schema = DatabaseNames.UsersSchemaName)]
+    public class DaoEmployeeLogin : IdentityUserLogin<int>
     {
     }
 }

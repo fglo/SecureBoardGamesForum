@@ -22,24 +22,33 @@ namespace BBDProject.Clients.Repositories.Chat
             return entity.Entity.Id;
         }
 
-        public async Task<List<DaoMessage>> GetAllMessages()
+        public async Task<List<DaoMessage>> GetNewMessages(int userId, int lastMessageId)
         {
-            throw new NotImplementedException();
-        }
+            List<DaoMessage> messages;
+            if (lastMessageId > 0)
+            {
+                messages = await DbContext.Messages
+                    .Include(m => m.Author)
+                    .Where(m => m.Id > lastMessageId)
+                    .OrderBy(m => m.DateAdded)
+                    .ToListAsync();
+            }
+            else
+            {
+                messages = await DbContext.Messages
+                    .Include(m => m.Author)
+                    .OrderBy(m => m.DateAdded)
+                    .ToListAsync();
+            }
 
-        public async Task<List<DaoMessage>> GetLast()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<DaoMessage>> GetNotRead()
-        {
-            throw new NotImplementedException();
+            return messages;
         }
 
         public async Task<List<DaoMessage>> GetPaged(int messagesPerPage, int pageNumber)
         {
-            var messages = DbContext.Messages.OrderByDescending(m => m.DateAdded)
+            var messages = DbContext.Messages
+                .Include(m => m.Author)
+                .OrderByDescending(m => m.DateAdded)
                 .Skip(messagesPerPage * (pageNumber - 1))
                 .Take(messagesPerPage)
                 .OrderBy(m => m.DateAdded);

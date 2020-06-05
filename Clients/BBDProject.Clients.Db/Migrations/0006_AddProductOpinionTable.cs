@@ -28,7 +28,7 @@ namespace BBDProject.Clients.Db.Migrations
 
             Create.ForeignKey("FK_user_product_opinion")
                 .FromTable(_tableName).InSchema("public").ForeignColumn("id_user")
-                .ToTable("user").InSchema("users").PrimaryColumn("Id");
+                .ToTable(DatabaseNames.UserTableName).InSchema(DatabaseNames.UsersSchemaName).PrimaryColumn("Id");
         }
     }
 }

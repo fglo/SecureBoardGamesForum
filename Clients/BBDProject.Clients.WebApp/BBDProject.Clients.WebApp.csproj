@@ -41,4 +41,9 @@
     <ProjectReference Include="..\BBDProject.Clients.Services\BBDProject.Clients.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Order\" />
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
 </Project>

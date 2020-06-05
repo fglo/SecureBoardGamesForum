@@ -1,0 +1,28 @@
+﻿@model List<BBDProject.Clients.Models.Forum.ForumTopicPreview>
+@{
+    Layout = "_Layout";
+}
+
+<div class="uk-card uk-card-default uk-card-body uk-overflow-auto uk-grid-small" uk-grid>
+    @foreach (var item in Model)
+    {
+        <div class="uk-width-1-1 uk-text-small">
+            <div class="uk-card uk-card-default uk-card-hover uk-card-body" style="padding: 24px 32px;">
+                <div class="uk-card-header" style="padding: 8px 12px;">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-expand">
+                            <h3 class="uk-card-title uk-margin-remove-bottom">@Html.Raw(@item.Title)</h3>
+                            <p class="uk-text-meta uk-margin-remove-top"><time>@Html.Raw(@item.DateModifiedStr)</time></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-card-body" style="padding: 16px 32px;">
+                    <p>@Html.Raw(@item.Content)</p>
+                </div>
+                <div class="uk-card-footer" style="padding: 16px 8px 0px 8px">
+                    <a class="uk-button uk-button-text" asp-controller="Forum" asp-action="Topic" asp-route-topicId="@item.Id" uk-tooltip="title: Zarejestruj się; pos: bottom-left">Czytaj dalej</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

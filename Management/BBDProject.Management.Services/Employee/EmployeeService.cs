@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BBDProject.Management.Db.Dao;
-using BBDProject.Management.Models.Resources;
 using BBDProject.Shared.Models.User;
 using Microsoft.AspNetCore.Identity;
-using Serilog;
 
-namespace BBDProject.Management.Services.User
+namespace BBDProject.Management.Services.Employee
 {
     public class EmployeeService : BaseService, IEmployeeService
     {

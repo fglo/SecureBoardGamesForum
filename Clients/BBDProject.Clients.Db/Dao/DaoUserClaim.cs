@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using BBDProject.Clients.Db.Migrations;
 using Microsoft.AspNetCore.Identity;
 
 namespace BBDProject.Clients.Db.Dao
@@ -7,7 +8,7 @@ namespace BBDProject.Clients.Db.Dao
     /// <summary>
     /// user Table Data Access Object 
     /// </summary>
-    [Table("user_claim", Schema = "users")]
+    [Table(DatabaseNames.UserClaimTableName, Schema = DatabaseNames.UsersSchemaName)]
     public class DaoUserClaim : IdentityUserClaim<int>
     {
         [Key]

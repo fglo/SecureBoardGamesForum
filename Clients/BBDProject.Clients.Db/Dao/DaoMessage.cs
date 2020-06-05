@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
@@ -9,6 +10,8 @@ namespace BBDProject.Clients.Db.Dao
 
     public class DaoMessage
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id")] public int Id { get; set; }
         [Column("id_author")] public int AuthorId { get; set; }
         [ForeignKey("AuthorId")] public DaoUser Author { get; set; }

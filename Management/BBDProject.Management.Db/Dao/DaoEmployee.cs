@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Identity;
 namespace BBDProject.Management.Db.Dao
 {
     /// <summary>
-    /// AspNetUsers Table Data Access Object 
+    /// user Table Data Access Object 
     /// </summary>
-    [Table("user", Schema = "users")]
+    [Table(DatabaseNames.UserTableName, Schema = DatabaseNames.UsersSchemaName)]
     public class DaoEmployee : IdentityUser<int>
     {
         [Key]

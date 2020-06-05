@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Identity;
 namespace BBDProject.Management.Db.Dao
 {
     /// <summary>
-    /// AspNetUsers Table Data Access Object 
+    /// user Table Data Access Object 
     /// </summary>
-    [Table("role_claim", Schema = "users")]
+    [Table(DatabaseNames.RoleClaimTableName, Schema = DatabaseNames.UsersSchemaName)]
     public class DaoRoleClaim : IdentityRoleClaim<int>
     {
         [Key]

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using BBDProject.Shared.Models.User;
 
-namespace BBDProject.Management.Services.User
+namespace BBDProject.Management.Services.Employee
 {
     public interface IEmployeeService
     {
