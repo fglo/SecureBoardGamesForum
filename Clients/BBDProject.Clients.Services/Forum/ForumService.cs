@@ -5,6 +5,7 @@ using BBDProject.Clients.Db.Dao;
 using BBDProject.Clients.Models.Forum;
 using BBDProject.Clients.Repositories;
 using BBDProject.Clients.Repositories.Forum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace BBDProject.Clients.Services.Forum
@@ -20,6 +21,7 @@ namespace BBDProject.Clients.Services.Forum
 
         #region Topic
 
+        [Authorize("User")]
         public async Task<ForumTopicViewModel> CreateTopic(ForumTopicForm form)
         {
             var topicId = await _forumRepository.CreateTopic(form);
@@ -46,7 +48,16 @@ namespace BBDProject.Clients.Services.Forum
 
         public async Task<ForumTopicViewModel> GetTopic(int topicId)
         {
-            return await _forumRepository.GetTopic(topicId);
+            var topic = await _forumRepository.GetTopic(topicId);
+            if (topic == null)
+            {
+                Error("Nie znaleziono szukanego wątku!");
+            }
+
+            topic.ForumPosts = (await _forumRepository.GetPosts(topic.Id))
+                .OrderBy(_ => _.DateModified ?? _.DateAdded)
+                .ToList();
+            return topic;
         }
 
         #endregion

@@ -19,16 +19,32 @@
             <tr hidden />
             @foreach (var item in Model)
             {
-                <tr class="uk-text-left">
-                    <td class="uk-text-nowrap">@Html.DisplayFor(i => item.Id)</td>
-                    <td class="uk-text-nowrap">@Html.DisplayFor(i => item.UserName)</td>
-                    <td class="uk-text-nowrap">@Html.DisplayFor(i => item.FirstName)</td>
-                    <td class="uk-text-nowrap">@Html.DisplayFor(i => item.LastName)</td>
-                    <td class="uk-text-nowrap">@Html.DisplayFor(i => item.Email)</td>
-                    <td class="uk-text-nowrap">
-                        <a class="uk-margin-right" style="color: royalBlue" asp-controller="Home" asp-action="Index" asp-route-testId="@item.Id" uk-tooltip="title: Block user; pos: bottom-left" title="Block user"><span style="color: royalBlue" uk-icon="icon:ban"/></a>
-                    </td>
-                </tr>
+                if (@item.LockedOut)
+                {
+                    <tr class="uk-text-left uk-background-muted uk-dark">
+                        <td class="uk-text-nowrap">@Html.DisplayFor(i => item.Id)</td>
+                        <td class="uk-text-nowrap">@Html.DisplayFor(i => item.UserName)</td>
+                        <td class="uk-text-nowrap">@Html.DisplayFor(i => item.FirstName)</td>
+                        <td class="uk-text-nowrap">@Html.DisplayFor(i => item.LastName)</td>
+                        <td class="uk-text-nowrap">@Html.DisplayFor(i => item.Email)</td>
+                        <td class="uk-text-nowrap">
+                            <a class="uk-margin-right" style="color: royalBlue" asp-controller="UserManagement" asp-action="Unban" asp-route-userId="@item.Id" uk-tooltip="title: Zablokuj użytkownika; pos: bottom-left"><span style="color: royalBlue" uk-icon="icon:plus-circle"></span></a>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr class="uk-text-left">
+                        <td class="uk-text-nowrap">@Html.DisplayFor(i => item.Id)</td>
+                        <td class="uk-text-nowrap">@Html.DisplayFor(i => item.UserName)</td>
+                        <td class="uk-text-nowrap">@Html.DisplayFor(i => item.FirstName)</td>
+                        <td class="uk-text-nowrap">@Html.DisplayFor(i => item.LastName)</td>
+                        <td class="uk-text-nowrap">@Html.DisplayFor(i => item.Email)</td>
+                        <td class="uk-text-nowrap">
+                            <a class="uk-margin-right" style="color: royalBlue" asp-controller="UserManagement" asp-action="Ban" asp-route-userId="@item.Id" uk-tooltip="title: Zablokuj użytkownika; pos: bottom-left"><span style="color: royalBlue" uk-icon="icon:ban"></span></a>
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>

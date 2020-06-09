@@ -11,6 +11,6 @@ namespace BBDProject.Management.Services.Employee
         /// </summary>
         /// <param name="userLoginForm"></param>
         /// <returns></returns>
-        Task<KeyValuePair<string, string>?> LoginUser(UserLoginForm userLoginForm);
+        Task LoginUser(UserLoginForm userLoginForm);
     }
 }

@@ -18,9 +18,14 @@ using System;
 using System.Linq;
 using System.Reflection;
 using BBDProject.Clients.Db;
+using BBDProject.Clients.Db.Dao;
 using BBDProject.Management.Models;
 using BBDProject.Management.Services;
+using BBDProject.Shared.Models.Email;
+using BBDProject.Shared.Utils.Helpers;
+using BBDProject.Shared.Utils.Services;
 using Microsoft.EntityFrameworkCore;
+using DaoRole = BBDProject.Management.Db.Dao.DaoRole;
 
 namespace BBDProject.Management.WebApp
 {
@@ -64,6 +69,8 @@ namespace BBDProject.Management.WebApp
                 .AddSignInManager<SignInManager<DaoEmployee>>()
                 .AddEntityFrameworkStores<ManagementDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.Configure<EmailServiceOptions>(Configuration.GetSection("SMTP"));
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson();
@@ -177,6 +184,15 @@ namespace BBDProject.Management.WebApp
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<UserContext>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<EmailBuilder>()
+                .PropertiesAutowired()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<EmailService>()
+                .AsImplementedInterfaces()
+                .PropertiesAutowired()
                 .InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(Clients.Repositories.BaseRepository)))

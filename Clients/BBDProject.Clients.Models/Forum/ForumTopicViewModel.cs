@@ -1,5 +1,6 @@
 ﻿using BBDProject.Shared.Models.User;
 using System;
+using System.Collections.Generic;
 
 namespace BBDProject.Clients.Models.Forum
 {
@@ -22,5 +23,7 @@ namespace BBDProject.Clients.Models.Forum
                     return DateModified?.ToString("dd.MM.yyyy hh:mm");
             }
         }
+
+        public List<ForumPostViewModel> ForumPosts { get; set; }
     }
 }

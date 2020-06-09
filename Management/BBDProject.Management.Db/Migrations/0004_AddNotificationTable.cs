@@ -21,7 +21,7 @@ namespace BBDProject.Management.Db.Migrations
 
             Create.ForeignKey("FK_role_notification")
                 .FromTable(_tableName).InSchema("public").ForeignColumn("id_role")
-                .ToTable("role").InSchema(DatabaseNames.UsersSchemaName).PrimaryColumn("Id");
+                .ToTable(DatabaseNames.RoleTableName).InSchema(DatabaseNames.UsersSchemaName).PrimaryColumn("Id");
         }
     }
 }

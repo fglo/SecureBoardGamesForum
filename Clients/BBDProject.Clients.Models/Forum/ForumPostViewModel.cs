@@ -11,7 +11,7 @@ namespace BBDProject.Clients.Models.Forum
         public int ForumTopicId { get; set; }
         public ForumTopicViewModel ForumTopic { get; set; }
         public string Content { get; set; }
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
         public DateTime DateAdded { get; set; }
     }
 }

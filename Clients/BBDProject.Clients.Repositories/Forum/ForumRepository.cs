@@ -130,6 +130,7 @@ namespace BBDProject.Clients.Repositories.Forum
         {
             var dao = await DbContext.ForumPosts
                 .Where(_ => !_.Deleted)
+                .Where(_ => _.ForumTopicId == topicId)
                 .Include(_ => _.Author)
                 .OrderBy(_ => _.DateAdded)
                 .ToListAsync();

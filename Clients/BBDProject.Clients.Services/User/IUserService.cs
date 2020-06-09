@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using BBDProject.Clients.Models.User;
 using BBDProject.Shared.Models.User;
+using Microsoft.AspNetCore.Identity;
 
 namespace BBDProject.Clients.Services.User
 {
@@ -18,5 +20,9 @@ namespace BBDProject.Clients.Services.User
         /// <param name="userRegisterForm"></param>
         /// <returns></returns>
         Task<KeyValuePair<string, string>?> RegisterUser(UserRegisterForm userRegisterForm);
+        Task<IdentityResult> ConfirmEmail(string username, string token);
+        Task ResetPassword(ResetPasswordForm form);
+        Task ResetPassword(int id);
+        Task<IdentityResult> SetNewPassword(SetNewPasswordForm form);
     }
 }

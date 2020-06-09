@@ -1,0 +1,34 @@
+﻿@model BBDProject.Clients.Models.Forum.ForumTopicViewModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="uk-card uk-card-default uk-card-body">
+    <div class="uk-card-header" style="padding: 8px 12px;">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-expand">
+                <h3 class="uk-card-title uk-margin-remove-bottom">@Html.Raw(@Model.Title)</h3>
+                <p class="uk-text-meta uk-margin-remove-top"><time>@Html.Raw(@Model.DateModifiedStr)</time></p>
+            </div>
+            <div class="uk-width-auto">
+                <a class="uk-margin-right" style="color: royalBlue" asp-controller="Forum" asp-action="DeleteTopic" asp-route-topicId="@Model.Id" uk-tooltip="title: Usuń wątek; pos: bottom-left"><span style="color: royalBlue" uk-icon="icon:trash"></span></a>
+            </div>
+        </div>
+    </div>
+    <div class="uk-card-body" style="padding: 16px 32px;">
+        <p>@Html.Raw(@Model.Content)</p>
+    </div>
+    <div class="uk-card-footer uk-grid-small" style="padding: 16px 8px 0px 8px" uk-grid>
+        @foreach (var item in @Model.ForumPosts)
+        {
+        <div class="uk-width-1-1 uk-text-small" uk-grid>
+            <div class="uk-card uk-card-default uk-card-hover uk-card-body uk-width-expand" style="padding: 24px 32px;">
+                <p>@Html.Raw(item.Content)</p>
+            </div>
+            <div class="uk-width-auto">
+                <a class="uk-margin-right" style="color: royalBlue" asp-controller="Forum" asp-action="DeletePost" asp-route-postId="@item.Id" uk-tooltip="title: Usuń post; pos: bottom-left"><span style="color: royalBlue" uk-icon="icon:trash"></span></a>
+            </div>
+        </div>
+        }
+    </div>
+</div>

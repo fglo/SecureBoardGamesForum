@@ -8,5 +8,7 @@ namespace BBDProject.Management.Services.EmployeeManagement
     public interface IEmployeeManagementService
     {
         Task<List<EmployeeModel>> GetAllEmployees();
+        Task BanEmployee(int employeeId);
+        Task UnbanEmployee(int employeeId);
     }
 }

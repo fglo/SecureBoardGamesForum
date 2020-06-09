@@ -31,17 +31,5 @@
 </div>
 
 <script>
-    let username = $('input#username');
-    if (username.attr("placeholder") && username.attr("placeholder") !== "") {
-        username.addClass("uk-form-danger");
-    } else {
-        username.removeClass("uk-form-danger");
-    }
-
-    let password = $('input#password');
-    if (password.attr("placeholder") && password.attr("placeholder") !== "") {
-        password.addClass("uk-form-danger");
-    } else {
-        password.removeClass("uk-form-danger");
-    }
+    showErrorMessage("@Html.Raw(ViewBag.ErrorMessage)");
 </script>

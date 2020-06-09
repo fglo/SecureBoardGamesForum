@@ -33,26 +33,26 @@ namespace BBDProject.Management.Db
 
             modelBuilder.Entity<DaoEmployee>()
                 .HasBaseType((Type)null)
-                .ToTable("user", "users")
-                .HasKey(l => new { l.Id });
-            modelBuilder.Entity<DaoEmployeeClaim>().ToTable("user_claim", "users")
+                .ToTable(DatabaseNames.UserTableName, DatabaseNames.UsersSchemaName)
+                .HasKey(u => new { u.Id });
+            modelBuilder.Entity<DaoEmployeeClaim>().ToTable(DatabaseNames.UserClaimTableName, DatabaseNames.UsersSchemaName)
                 .HasBaseType((Type)null)
-                .HasKey(l => new { l.Id });
-            modelBuilder.Entity<DaoEmployeeLogin>().ToTable("user_login", "users")
+                .HasKey(uc => new { uc.Id });
+            modelBuilder.Entity<DaoEmployeeLogin>().ToTable(DatabaseNames.UserLoginTableName, DatabaseNames.UsersSchemaName)
                 .HasBaseType((Type)null)
-                .HasKey(l => new { l.LoginProvider, l.ProviderKey });
-            modelBuilder.Entity<DaoEmployeeToken>().ToTable("user_token", "users")
+                .HasKey(ul => new { ul.LoginProvider, ul.ProviderKey });
+            modelBuilder.Entity<DaoEmployeeToken>().ToTable(DatabaseNames.UserTokenTableName, DatabaseNames.UsersSchemaName)
                 .HasBaseType((Type)null)
-                .HasKey(l => new { l.UserId });
-            modelBuilder.Entity<DaoRole>().ToTable("role", "users")
+                .HasKey(ut => new { ut.UserId });
+            modelBuilder.Entity<DaoRole>().ToTable(DatabaseNames.RoleTableName, DatabaseNames.UsersSchemaName)
                 .HasBaseType((Type)null)
-                .HasKey(l => new { l.Id });
-            modelBuilder.Entity<DaoRoleClaim>().ToTable("role_claim", "users")
+                .HasKey(r => new { r.Id });
+            modelBuilder.Entity<DaoRoleClaim>().ToTable(DatabaseNames.RoleClaimTableName, DatabaseNames.UsersSchemaName)
                 .HasBaseType((Type)null)
-                .HasKey(l => new { l.Id });
-            modelBuilder.Entity<DaoEmployeeRole>().ToTable("user_role", "users")
+                .HasKey(rc => new { rc.Id });
+            modelBuilder.Entity<DaoEmployeeRole>().ToTable(DatabaseNames.UserRoleTableName, DatabaseNames.UsersSchemaName)
                 .HasBaseType((Type)null)
-                .HasKey(r => new { r.UserId, r.RoleId });
+                .HasKey(ur => new { ur.UserId, ur.RoleId });
         }
 
         //public virtual DbSet<DaoTest> Tests { get; set; }

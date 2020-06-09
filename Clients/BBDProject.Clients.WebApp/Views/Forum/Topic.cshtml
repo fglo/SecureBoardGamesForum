@@ -16,13 +16,13 @@
         <p>@Html.Raw(@Model.Content)</p>
     </div>
     <div class="uk-card-footer uk-grid-small" style="padding: 16px 8px 0px 8px" uk-grid>
-        <div class="uk-card uk-card-default uk-card-hover uk-card-body uk-width-1-1" style="padding: 24px 32px;">
-        </div>
-        <div class="uk-card uk-card-default uk-card-hover uk-card-body uk-width-1-1" style="padding: 24px 32px;">
-        </div>
-        <div class="uk-card uk-card-default uk-card-hover uk-card-body uk-width-1-1" style="padding: 24px 32px;">
-        </div>
-        <div class="uk-card uk-card-default uk-card-hover uk-card-body uk-width-1-1" style="padding: 24px 32px;">
-        </div>
+        @foreach (var item in @Model.ForumPosts)
+        {
+            <div class="uk-width-1-1 uk-text-small">
+                <div class="uk-card uk-card-default uk-card-hover uk-card-body" style="padding: 24px 32px;">
+                    <p>@Html.Raw(item.Content)</p>
+                </div>
+            </div>
+        }
     </div>
 </div>

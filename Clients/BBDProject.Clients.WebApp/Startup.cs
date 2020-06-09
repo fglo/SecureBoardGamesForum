@@ -12,6 +12,9 @@ using BBDProject.Clients.Models;
 using BBDProject.Clients.Repositories;
 using BBDProject.Clients.Repositories.Product;
 using BBDProject.Clients.Services;
+using BBDProject.Shared.Models.Email;
+using BBDProject.Shared.Utils.Helpers;
+using BBDProject.Shared.Utils.Services;
 using FluentMigrator.Runner;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -71,6 +74,7 @@ namespace BBDProject.Clients.WebApp
                 .AddEntityFrameworkStores<ClientDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.Configure<EmailServiceOptions>(Configuration.GetSection("SMTP"));
 
             services.AddSignalR();
             //services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
@@ -80,23 +84,38 @@ namespace BBDProject.Clients.WebApp
 
             services.Configure<IdentityOptions>(options =>
             {
-                options.Password.RequireDigit = true;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequiredLength = 10;
-                options.Password.RequiredUniqueChars = 1;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 1;
+                options.Password.RequiredUniqueChars = 0;
 
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-                options.Lockout.MaxFailedAccessAttempts = 10;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
 
                 options.User.AllowedUserNameCharacters =
                     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
 
-                options.SignIn.RequireConfirmedEmail = false;
-                options.SignIn.RequireConfirmedPhoneNumber = false;
+                //options.Password.RequireDigit = true;
+                //options.Password.RequireLowercase = true;
+                //options.Password.RequireNonAlphanumeric = true;
+                //options.Password.RequireUppercase = true;
+                //options.Password.RequiredLength = 10;
+                //options.Password.RequiredUniqueChars = 1;
+
+                //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                //options.Lockout.MaxFailedAccessAttempts = 10;
+                //options.Lockout.AllowedForNewUsers = true;
+
+                //options.User.AllowedUserNameCharacters =
+                //    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                //options.User.RequireUniqueEmail = true;
+
+                //options.SignIn.RequireConfirmedEmail = false;
+                //options.SignIn.RequireConfirmedPhoneNumber = false;
             });
 
             services.ConfigureApplicationCookie(options =>
@@ -193,11 +212,21 @@ namespace BBDProject.Clients.WebApp
             builder.RegisterType<ChatHub>()
                 .ExternallyOwned()
                 .SingleInstance();
+
             //builder.RegisterType<CustomUserIdProvider>()
             //    .As<IUserIdProvider>()
             //    .SingleInstance();
 
             builder.RegisterType<UserContext>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<EmailBuilder>()
+                .PropertiesAutowired()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<EmailService>()
+                .AsImplementedInterfaces()
+                .PropertiesAutowired()
                 .InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(BaseRepository)))

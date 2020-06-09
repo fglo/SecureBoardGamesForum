@@ -7,5 +7,7 @@ namespace BBDProject.Management.Services.UserManagement
     public interface IUserManagementService
     {
         Task<List<UserModel>> GetAllUsers();
+        Task BanUser(int userId);
+        Task UnbanUser(int userId);
     }
 }

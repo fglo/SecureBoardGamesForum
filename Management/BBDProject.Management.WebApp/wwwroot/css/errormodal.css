@@ -60,16 +60,16 @@
 
     .gackomodal .title {
         display: block;
-        font-size: 18px;
-        line-height: 24px;
+        font-size: 26px;
+        line-height: 32px;
         font-weight: 400;
         margin: 14px 0 5px 0;
     }
 
     .gackomodal p {
-        font-size: 14px;
+        font-size: 18px;
         font-weight: 300;
-        line-height: 19px;
+        line-height: 26px;
         margin: 0;
         padding: 0 30px;
     }
@@ -83,7 +83,7 @@
         background: #F65656;
         color: #fff;
         line-height: 40px;
-        font-size: 14px;
+        font-size: 18px;
         font-weight: 400;
         cursor: pointer;
         transition: background .3s ease-in-out;
@@ -102,7 +102,7 @@
         background: #32CD32;
         color: #fff;
         line-height: 40px;
-        font-size: 14px;
+        font-size: 18px;
         font-weight: 400;
         cursor: pointer;
         transition: background .3s ease-in-out;

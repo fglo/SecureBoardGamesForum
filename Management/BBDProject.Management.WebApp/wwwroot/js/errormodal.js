@@ -38,6 +38,15 @@ function showErrorModal(data, reload) {
     }
 }
 
+function showErrorMessage(message) {
+    if (message !== "") {
+        $('#errormodal #errormodal_message').html(message);
+        $('.modal-overlay').show();
+        $('#errormodal').removeClass("hide");
+        $('#errormodal').removeAttr("hidden");
+    }
+}
+
 function showSuccessModal(data, reload) {
     let message = "";
     if (data.responseJSON)
