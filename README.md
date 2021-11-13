@@ -1,6 +1,8 @@
-# BBDProject
+# Secure Board Games Forum & Shop
 
 Projekt został stworzony na potrzeby przemiotu **Bezpieczeństwo Baz Danych**
+
+### Treść zadania
 
 Projektowanym systemem jest mobilna platforma społecznościowo-handlowa zorientowana wokół gier planszowych (dalej zwana platformą społecznościowo-handlową) oraz osobny, przeznaczony dla pracowników system umożliwiający monitorowanie platformy (dalej zwany systemem pracowniczym).
 
